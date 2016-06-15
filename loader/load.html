@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>loading</title>
+	<meta charset="utf-8" />
+	  <meta name="viewport" content="width=640, target-densitydpi=device-dpi, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+	<style type="text/css">
+*{margin: 0;padding: 0}
+.layer{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+	z-index: 101
+}
+.back{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	background: #be0002;
+	z-index: 102;
+	transition: 0.2s;
+}
+.box{
+	width: 70%;
+	height: 8%;
+	position: absolute;
+	top: 40%;
+	left: 15%;
+	overflow: hidden;
+	z-index: 103;
+	border: 2px solid #be0002;
+	border-radius: 30px;
+}
+
+
+	</style>
+</head>
+<body>
+<div class="layer" id="layer"></div>
+<div class="box" id="box">
+<div class="back" id="back"></div>	
+</div>
+
+<script type="text/javascript">
+var imgs = ['http://img0.imgtn.bdimg.com/it/u=2529587943,3671582779&fm=206&gp=0.jpg','http://img0.imgtn.bdimg.com/it/u=3162594180,2192653060&fm=206&gp=0.jpg','http://img0.imgtn.bdimg.com/it/u=2188374532,4037499708&fm=206&gp=0.jpg','http://img4.imgtn.bdimg.com/it/u=147190976,2100443672&fm=206&gp=0.jpg','http://img5.imgtn.bdimg.com/it/u=1004450082,4022811111&fm=206&gp=0.jpg','http://img.taopic.com/uploads/allimg/110914/8879-11091423205844.jpg','http://g.hiphotos.baidu.com/zhidao/pic/item/1f178a82b9014a90b006ce8aa8773912b31beec9.jpg','http://img.taopic.com/uploads/allimg/121005/219049-12100519393871.jpg'];
+function callback () {
+	console.log('ok')
+}
+loadImg(imgs,callback)
+
+function loadImg (imgs,callback) {
+	var imgsLen = imgs.length;
+	var loaded = 0;
+
+	for (var i = 0; i < imgsLen; i++) {
+		var imgDOM = document.createElement('img');
+		imgDOM.src = imgs[i];
+		imgDOM.onload = function () {
+			loaded++
+			uiChange(loaded / imgsLen)
+			if (loaded == imgsLen) {
+				setTimeout(function () {
+					stop()
+					callback()
+				},500)
+			};
+		}
+		
+	};
+}
+function uiChange(num) {
+	var layer = document.getElementById('layer');
+	var box = document.getElementById('box');
+	var back = document.getElementById('back');
+	back.style.width = ( num * 100) + '%';
+}
+function stop() {
+	var layer = document.getElementById('layer');
+	var box = document.getElementById('box');
+	layer.style.display = "none";
+	box.style.display = "none";
+}
+
+</script>
+</body>
+</html>
