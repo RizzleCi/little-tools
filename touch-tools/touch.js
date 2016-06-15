@@ -7,15 +7,17 @@ var touch = function (ele,eventSign) {
 		startY : 0,
 		timer: null
 	}
-
+	function addEvent(type) {
+		if (typeof(eventSign[type]) == 'function') {
+			eventSign[type]()
+		}
+	}
 	function touchStart(e) {
 		sign.startTime = new Date()
 		sign.startX = e.touches[0].pageX
 		sign.startY = e.touches[0].pageY
 		sign.timer = setTimeout(function () {
-			if (typeof(eventSign.longtap) == 'function') {
-				eventSign.longtap()
-			}
+			addEvent('longtap')
 		},600)
 	}
 	function touchMove(e) {
@@ -30,27 +32,17 @@ var touch = function (ele,eventSign) {
 		var moveY = endY - sign.startY
 		var time = endTime - sign.startTime
 		if ( moveX > 50 ) {
-			if (typeof(eventSign.right) == 'function') {
-				eventSign.right()
-			}
+			addEvent('right')
 		}else if (moveX < -50) {
-			if (typeof(eventSign.left) == 'function') {
-				eventSign.left()
-			}
+			addEvent('left')
 		}
 		if ( moveY > 50 ) {
-			if (typeof(eventSign.down) == 'function') {
-				eventSign.down()
-			}
+			addEvent('down')
 		}else if (moveY < -50) {
-			if (typeof(eventSign.up) == 'function') {
-				eventSign.up()
-			}
+			addEvent('up')
 		}
 		if ( time < 300 ) {
-			if (typeof(eventSign.tap) == 'function') {
-				eventSign.tap()
-			}
+			addEvent('tap')
 			clearTimeout(sign.timer)
 		}
 	}
